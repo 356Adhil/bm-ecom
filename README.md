@@ -34,3 +34,53 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Current Folder Structure ( 26/Nov/2024 )
+
+📦app
+┣ 📂api
+┃ ┗ 📂products
+┃ ┃ ┣ 📂[id]
+┃ ┃ ┃ ┗ 📜route.js
+┃ ┃ ┗ 📜route.js
+┣ 📂cart
+┃ ┗ 📜page.js
+┣ 📂components
+┃ ┣ 📂cart
+┃ ┃ ┗ 📜CartDrawer.jsx
+┃ ┣ 📂home
+┃ ┃ ┣ 📜Categories.jsx
+┃ ┃ ┣ 📜FeaturedProducts.jsx
+┃ ┃ ┣ 📜HeroSection.jsx
+┃ ┃ ┗ 📜SpecialOffer.jsx
+┃ ┣ 📂layout
+┃ ┃ ┣ 📜AuthModal.jsx
+┃ ┃ ┣ 📜Header.jsx
+┃ ┃ ┗ 📜Navigation.jsx
+┃ ┣ 📂product
+┃ ┃ ┣ 📜ProductDetails.jsx
+┃ ┃ ┗ 📜ProductGallery.jsx
+┃ ┣ 📂search
+┃ ┃ ┗ 📜SearchOverlay.jsx
+┃ ┗ 📂ui
+┃ ┃ ┗ 📜ProductCard.jsx
+┣ 📂data
+┃ ┣ 📜categories.js
+┃ ┣ 📜data.js
+┃ ┗ 📜products.js
+┣ 📂fonts
+┃ ┣ 📜GeistMonoVF.woff
+┃ ┗ 📜GeistVF.woff
+┣ 📂hooks
+┃ ┣ 📜useDebounce.js
+┃ ┗ 📜useSearch.js
+┣ 📂lib
+┃ ┗ 📜store.js
+┣ 📂products
+┃ ┣ 📂[id]
+┃ ┃ ┗ 📜page.js
+┃ ┗ 📜page.js
+┣ 📜favicon.ico
+┣ 📜globals.css
+┣ 📜layout.js
+┗ 📜page.js
