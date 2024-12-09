@@ -1,6 +1,6 @@
 // components/layout/AuthModal.jsx
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 export const AuthModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -15,17 +15,14 @@ export const AuthModal = ({ isOpen, onClose }) => {
       >
         <motion.div
           className="bg-white w-full md:max-w-md md:rounded-3xl rounded-t-3xl p-6"
-          initial={{ y: "100%" }}
+          initial={{ y: '100%' }}
           animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ type: "spring", damping: 25 }}
+          exit={{ y: '100%' }}
+          transition={{ type: 'spring', damping: 25 }}
         >
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold">Welcome to Boba Metals</h2>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-zinc-100 rounded-full"
-            >
+            <button onClick={onClose} className="p-2 hover:bg-zinc-100 rounded-full">
               <X size={24} />
             </button>
           </div>

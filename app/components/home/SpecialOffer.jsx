@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useModals } from "@/app/contexts/ModalContext";
+import { motion } from 'framer-motion';
+import { useModals } from '@/app/contexts/ModalContext';
 
 export const SpecialOffer = () => {
   const { openAuth } = useModals();

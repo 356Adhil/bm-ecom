@@ -1,9 +1,9 @@
 // components/layout/Navigation.jsx
-import { motion } from "framer-motion";
-import { Home, Search, ShoppingBag, Heart, User } from "lucide-react";
-import { useModals } from "@/app/contexts/ModalContext";
-import { usePathname, useRouter } from "next/navigation";
-import { useStore } from "@/app/lib/store";
+import { motion } from 'framer-motion';
+import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
+import { useModals } from '@/app/contexts/ModalContext';
+import { usePathname, useRouter } from 'next/navigation';
+import { useStore } from '@/app/lib/store';
 
 export const Navigation = () => {
   const { openSearch, openCart, openAuth, openWishlist } = useModals();
@@ -14,33 +14,33 @@ export const Navigation = () => {
 
   const items = [
     {
-      label: "Home",
+      label: 'Home',
       icon: Home,
-      onClick: () => router.push("/"),
-      isActive: pathname === "/",
+      onClick: () => router.push('/'),
+      isActive: pathname === '/',
     },
     {
-      label: "Search",
+      label: 'Search',
       icon: Search,
       onClick: openSearch,
       isActive: false,
     },
     {
-      label: "Wishlist",
+      label: 'Wishlist',
       icon: Heart,
       onClick: openWishlist,
       isActive: false,
       badge: wishlist.length,
     },
     {
-      label: "Cart",
+      label: 'Cart',
       icon: ShoppingBag,
       onClick: openCart,
       isActive: false,
       badge: cartItemCount, // Added cart count here
     },
     {
-      label: "Account",
+      label: 'Account',
       icon: User,
       onClick: openAuth,
       isActive: false,
@@ -63,10 +63,10 @@ export const Navigation = () => {
                 size={24}
                 className={`${
                   item.isActive
-                    ? "text-zinc-900"
-                    : item.label === "Wishlist" && wishlist.length > 0
-                    ? "text-red-500"
-                    : "text-zinc-700"
+                    ? 'text-zinc-900'
+                    : item.label === 'Wishlist' && wishlist.length > 0
+                      ? 'text-red-500'
+                      : 'text-zinc-700'
                 }`}
               />
               {item.badge > 0 && (
@@ -76,9 +76,7 @@ export const Navigation = () => {
               )}
             </div>
             <span
-              className={`text-xs ${
-                item.isActive ? "text-zinc-900 font-medium" : "text-zinc-500"
-              }`}
+              className={`text-xs ${item.isActive ? 'text-zinc-900 font-medium' : 'text-zinc-500'}`}
             >
               {item.label}
             </span>
@@ -86,7 +84,7 @@ export const Navigation = () => {
               <motion.div
                 layoutId="activeTab"
                 className="absolute -top-4 w-12 h-1 bg-zinc-900 rounded-full"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
               />
             )}
           </motion.button>

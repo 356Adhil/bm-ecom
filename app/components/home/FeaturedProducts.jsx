@@ -1,21 +1,19 @@
 // components/home/FeaturedProducts.jsx
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ProductCard } from "../ui/ProductCard";
-import { categories } from "../../data/categories";
-import { featuredProducts } from "../../data/products";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ProductCard } from '../ui/ProductCard';
+import { categories } from '../../data/categories';
+import { featuredProducts } from '../../data/products';
 
 export const FeaturedProducts = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState('All');
   const [filteredProducts, setFilteredProducts] = useState(featuredProducts);
 
   useEffect(() => {
     const filtered =
-      activeCategory === "All"
+      activeCategory === 'All'
         ? featuredProducts
-        : featuredProducts.filter(
-            (product) => product.category === activeCategory
-          );
+        : featuredProducts.filter((product) => product.category === activeCategory);
     setFilteredProducts(filtered);
   }, [activeCategory]);
 
@@ -33,13 +31,13 @@ export const FeaturedProducts = () => {
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar">
-        {["All", ...categories.map((c) => c.name)].map((category) => (
+        {['All', ...categories.map((c) => c.name)].map((category) => (
           <motion.button
             key={category}
             className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200 ${
               activeCategory === category
-                ? "bg-zinc-900 text-white"
-                : "bg-white text-zinc-600 hover:bg-zinc-100"
+                ? 'bg-zinc-900 text-white'
+                : 'bg-white text-zinc-600 hover:bg-zinc-100'
             }`}
             onClick={() => setActiveCategory(category)}
             whileHover={{ scale: 1.05 }}

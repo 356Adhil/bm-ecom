@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"app/**/*.{js,jsx,css,md,json}\"",
+    "format:check": "prettier --check \"app/**/*.{js,jsx,css,md,json}\"",
+    "lint:check": "eslint \"app/**/*.{js,jsx}\""
   },
   "dependencies": {
     "framer-motion": "^11.11.17",
@@ -18,9 +21,13 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "15.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "postcss": "^8",
+    "prettier": "^3.4.2",
     "tailwindcss": "^3.4.1"
   }
 }

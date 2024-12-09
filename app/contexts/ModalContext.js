@@ -1,6 +1,6 @@
 // contexts/ModalContext.jsx
-"use client";
-import { createContext, useContext, useState } from "react";
+'use client';
+import { createContext, useContext, useState } from 'react';
 
 const ModalContext = createContext({
   openSearch: () => {},
@@ -57,7 +57,7 @@ export const ModalProvider = ({ children }) => {
 export const useModals = () => {
   const context = useContext(ModalContext);
   if (!context) {
-    throw new Error("useModals must be used within a ModalProvider");
+    throw new Error('useModals must be used within a ModalProvider');
   }
   return context;
 };

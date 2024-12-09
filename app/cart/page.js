@@ -1,9 +1,9 @@
 // app/cart/page.js
-"use client";
-import { useStore } from "../lib/store";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { Minus, Plus, X, ShoppingBag } from "lucide-react";
+'use client';
+import { useStore } from '../lib/store';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Minus, Plus, X, ShoppingBag } from 'lucide-react';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useStore();
@@ -21,11 +21,7 @@ export default function CartPage() {
         ) : (
           <div className="space-y-4">
             {cart.map((item) => (
-              <motion.div
-                key={item.id}
-                layout
-                className="flex gap-4 bg-white p-4 rounded-xl"
-              >
+              <motion.div key={item.id} layout className="flex gap-4 bg-white p-4 rounded-xl">
                 <div className="relative w-24 h-24 flex-shrink-0">
                   <Image
                     src={item.image}

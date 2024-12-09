@@ -8,12 +8,8 @@ const SearchContext = createContext();
 
 export function SearchProvider({ children }) {
   const searchProps = useSearch(featuredProducts);
-  
-  return (
-    <SearchContext.Provider value={searchProps}>
-      {children}
-    </SearchContext.Provider>
-  );
+
+  return <SearchContext.Provider value={searchProps}>{children}</SearchContext.Provider>;
 }
 
 export function useSearchContext() {

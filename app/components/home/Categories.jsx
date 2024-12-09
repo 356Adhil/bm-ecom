@@ -1,6 +1,6 @@
 // components/home/Categories.jsx
-import { motion } from "framer-motion";
-import { categories } from "../../data/categories";
+import { motion } from 'framer-motion';
+import { categories } from '../../data/categories';
 
 export const Categories = () => {
   return (
@@ -16,9 +16,7 @@ export const Categories = () => {
             whileHover={{ y: -4 }}
           >
             <span className="text-4xl mb-4 block">{category.icon}</span>
-            <h3 className="font-semibold mb-2 group-hover:text-zinc-600">
-              {category.name}
-            </h3>
+            <h3 className="font-semibold mb-2 group-hover:text-zinc-600">{category.name}</h3>
             <p className="text-sm text-zinc-500">{category.description}</p>
           </motion.div>
         ))}

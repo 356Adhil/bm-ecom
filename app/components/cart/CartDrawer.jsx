@@ -1,9 +1,9 @@
 // components/cart/CartDrawer.jsx
-import { useStore } from "@/app/lib/store";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useStore } from '@/app/lib/store';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export const CartDrawer = ({ isOpen, onClose }) => {
   const { cart, addToCart, removeFromCart } = useStore();
@@ -22,18 +22,16 @@ export const CartDrawer = ({ isOpen, onClose }) => {
           onClick={onClose}
         >
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25 }}
             className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-xl font-bold">
-                Shopping Cart ({cart.length})
-              </h2>
+              <h2 className="text-xl font-bold">Shopping Cart ({cart.length})</h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
@@ -50,7 +48,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                 <button
                   onClick={() => {
                     onClose();
-                    router.push("/products");
+                    router.push('/products');
                   }}
                   className="flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-medium"
                 >
@@ -88,9 +86,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                             <X size={18} />
                           </button>
                         </div>
-                        <p className="text-zinc-500 text-sm mb-2">
-                          ${item.price}
-                        </p>
+                        <p className="text-zinc-500 text-sm mb-2">${item.price}</p>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-3">
@@ -101,9 +97,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                           >
                             <Minus size={16} />
                           </button>
-                          <span className="font-medium w-8 text-center">
-                            {item.quantity}
-                          </span>
+                          <span className="font-medium w-8 text-center">{item.quantity}</span>
                           <button
                             onClick={() => addToCart(item, 1)}
                             className="p-1 hover:bg-zinc-200 rounded-full transition-colors"
@@ -133,9 +127,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                   {/* Total */}
                   <div className="flex justify-between items-center pt-2 border-t">
                     <span className="font-medium">Total</span>
-                    <span className="text-xl font-bold">
-                      ${total.toFixed(2)}
-                    </span>
+                    <span className="text-xl font-bold">${total.toFixed(2)}</span>
                   </div>
 
                   {/* Actions */}
@@ -143,7 +135,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                     <button
                       onClick={() => {
                         onClose();
-                        router.push("/cart");
+                        router.push('/cart');
                       }}
                       className="w-full py-3 bg-zinc-100 rounded-xl font-medium transition-colors hover:bg-zinc-200"
                     >
@@ -158,7 +150,7 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                   <button
                     onClick={() => {
                       onClose();
-                      router.push("/products");
+                      router.push('/products');
                     }}
                     className="w-full flex items-center justify-center gap-2 text-zinc-500 hover:text-zinc-800 transition-colors"
                   >

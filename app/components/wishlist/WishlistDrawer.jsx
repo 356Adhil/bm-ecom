@@ -1,10 +1,9 @@
 // components/wishlist/WishlistDrawer.jsx
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Heart, ShoppingBag, Trash2, ArrowRight } from "lucide-react";
-import Image from "next/image";
-import { useStore } from "@/app/lib/store";
-import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Heart, ShoppingBag, Trash2, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { useStore } from '@/app/lib/store';
+import { useRouter } from 'next/navigation';
 
 export const WishlistDrawer = ({ isOpen, onClose }) => {
   const { wishlist, toggleWishlist, addToCart } = useStore();
@@ -31,9 +30,9 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: '100%' }}
             className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col"
           >
             {/* Header */}
@@ -62,7 +61,7 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
                   <button
                     onClick={() => {
                       onClose();
-                      router.push("/products");
+                      router.push('/products');
                     }}
                     className="flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-medium"
                   >
@@ -83,20 +82,13 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
                     >
                       {/* Product Image */}
                       <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                        />
+                        <Image src={item.image} alt={item.name} fill className="object-cover" />
                       </div>
 
                       {/* Product Info */}
                       <div className="flex-1">
                         <h3 className="font-medium mb-1">{item.name}</h3>
-                        <p className="text-zinc-600 font-medium">
-                          ${item.price.toFixed(2)}
-                        </p>
+                        <p className="text-zinc-600 font-medium">${item.price.toFixed(2)}</p>
                       </div>
 
                       {/* Actions */}

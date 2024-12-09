@@ -1,14 +1,13 @@
 // app/products/[id]/page.js
-"use client";
-import { useState, useEffect } from "react";
-import { use } from "react";
-import { ProductDetails } from "@/app/components/product/ProductDetails";
-import { useRouter } from "next/navigation";
+'use client';
+import { useState, useEffect, use } from 'react';
+import { ProductDetails } from '@/app/components/product/ProductDetails';
+import { useRouter } from 'next/navigation';
 
-export default function ProductPage({ params: paramsPromise }) {
-  // Unwrap params at the top level
-  const params = use(paramsPromise);
-  const productId = params.id;
+export default function ProductPage({ params }) {
+  // Properly unwrap params using React.use()
+  const unwrappedParams = use(params);
+  const productId = unwrappedParams.id;
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,13 +21,13 @@ export default function ProductPage({ params: paramsPromise }) {
       try {
         const res = await fetch(`/api/products/${productId}`);
         if (!res.ok) {
-          throw new Error("Product not found");
+          throw new Error('Product not found');
         }
         const data = await res.json();
         setProduct(data);
       } catch (error) {
-        console.error("Error fetching product:", error);
-        router.push("/products");
+        console.error('Error fetching product:', error);
+        router.push('/products');
       } finally {
         setLoading(false);
       }
@@ -37,7 +36,7 @@ export default function ProductPage({ params: paramsPromise }) {
     fetchProduct();
   }, [productId, router]);
 
-  // Loading state with skeleton UI
+  // Rest of the component remains the same...
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50">
@@ -55,7 +54,6 @@ export default function ProductPage({ params: paramsPromise }) {
     );
   }
 
-  // Error state
   if (!product) {
     return (
       <div className="min-h-screen bg-zinc-50">
@@ -63,7 +61,7 @@ export default function ProductPage({ params: paramsPromise }) {
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Product not found</h2>
             <button
-              onClick={() => router.push("/products")}
+              onClick={() => router.push('/products')}
               className="text-blue-600 hover:underline"
             >
               Return to Products
@@ -76,12 +74,11 @@ export default function ProductPage({ params: paramsPromise }) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      {/* Product Details */}
       <ProductDetails
         product={product}
-        onClose={() => router.push("/products")}
+        onClose={() => router.push('/products')}
         requiresAuth={false}
-        inPage={true} // New prop to indicate this is a page view
+        inPage={true}
       />
     </div>
   );

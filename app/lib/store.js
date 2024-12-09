@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export const useStore = create((set) => ({
   cart: [],
@@ -11,9 +11,7 @@ export const useStore = create((set) => ({
       if (existing) {
         return {
           cart: state.cart.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
+            item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
           ),
         };
       }
@@ -37,9 +35,6 @@ export const useStore = create((set) => ({
 
   addSearchHistory: (term) =>
     set((state) => ({
-      searchHistory: [
-        term,
-        ...state.searchHistory.filter((t) => t !== term),
-      ].slice(0, 5),
+      searchHistory: [term, ...state.searchHistory.filter((t) => t !== term)].slice(0, 5),
     })),
 }));
