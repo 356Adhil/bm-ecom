@@ -4,9 +4,11 @@ import { useStore } from '../lib/store';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Minus, Plus, X, ShoppingBag } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
   const { cart, addToCart, removeFromCart } = useStore();
+  const router = useRouter();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -63,7 +65,12 @@ export default function CartPage() {
                 <span className="font-medium">Total</span>
                 <span className="text-xl font-bold">${total.toFixed(2)}</span>
               </div>
-              <button className="w-full bg-zinc-900 text-white py-4 rounded-xl font-medium">
+              <button
+                className="w-full bg-zinc-900 text-white py-4 rounded-xl font-medium"
+                onClick={() => {
+                  router.push('/checkout');
+                }}
+              >
                 Proceed to Checkout
               </button>
             </div>
