@@ -12,10 +12,16 @@ const tagStyles = {
   Limited: 'bg-red-100 text-red-800',
 };
 
-export const ProductCard = ({ product, index }) => {
+export const ProductCard = ({ product, index, onClose }) => {
+  // Add onClose to props
   const router = useRouter();
   const { addToCart, toggleWishlist, wishlist } = useStore();
   const isWishlisted = wishlist.some((item) => item.id === product.id);
+
+  const handleProductClick = () => {
+    router.push(`/products/${product.id}`);
+    if (onClose) onClose(); // Add this line
+  };
 
   return (
     <motion.div
@@ -49,7 +55,7 @@ export const ProductCard = ({ product, index }) => {
         <ShoppingBag size={20} />
       </motion.button>
 
-      <div onClick={() => router.push(`/products/${product.id}`)} className="cursor-pointer">
+      <div onClick={handleProductClick} className="cursor-pointer">
         <div className="relative aspect-square mb-4 rounded-2xl overflow-hidden">
           <Image
             src={product.image}

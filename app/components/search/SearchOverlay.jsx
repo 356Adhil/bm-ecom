@@ -83,7 +83,13 @@ export const SearchOverlay = ({ isOpen, onClose }) => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {filteredProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} showQuickAdd />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={index}
+                  showQuickAdd
+                  onClose={onClose} // Add this line
+                />
               ))}
             </div>
           </div>
