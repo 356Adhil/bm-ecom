@@ -6,7 +6,7 @@ export const SpecialOffer = () => {
 
   return (
     <motion.section
-      className="bg-gradient-to-br from-zinc-900 to-zinc-800 text-white mt-8 py-16 px-4 mb-24"
+      className="bg-gradient-to-br from-zinc-900 to-zinc-800 text-white mt-8 py-16 px-4 mb-16"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
