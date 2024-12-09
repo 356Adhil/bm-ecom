@@ -32,7 +32,9 @@ export default function OrderSuccessPage() {
             </div>
             <div className="text-left">
               <p className="font-medium">Shipping Updates</p>
-              <p className="text-sm text-zinc-500">You&apos;ll receive shipping updates via email</p>
+              <p className="text-sm text-zinc-500">
+                You&apos;ll receive shipping updates via email
+              </p>
             </div>
           </div>
 

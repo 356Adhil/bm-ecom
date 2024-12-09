@@ -10,6 +10,7 @@ import { SearchProvider } from './contexts/SearchContext';
 import { WishlistDrawer } from './components/wishlist/WishlistDrawer';
 import { register } from './serviceWorker';
 import { useEffect } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -39,11 +40,13 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-title" content="Boba Metals" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ModalProvider>
-          <SearchProvider>
-            <RootLayoutContent>{children}</RootLayoutContent>
-          </SearchProvider>
-        </ModalProvider>
+        <SessionProvider>
+          <ModalProvider>
+            <SearchProvider>
+              <RootLayoutContent>{children}</RootLayoutContent>
+            </SearchProvider>
+          </ModalProvider>
+        </SessionProvider>
       </body>
     </html>
   );
