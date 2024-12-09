@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/app/lib/store';
 
 export const Navigation = () => {
-  const { openSearch, openCart, openAuth, openWishlist } = useModals();
+  const { openSearch, openCart, openAuth, openWishlist, isSearchOpen } = useModals(); // Add isSearchOpen here
   const router = useRouter();
   const pathname = usePathname();
   const { wishlist, cart } = useStore();
@@ -23,7 +23,7 @@ export const Navigation = () => {
       label: 'Search',
       icon: Search,
       onClick: openSearch,
-      isActive: false,
+      isActive: isSearchOpen, // Update this line to use isSearchOpen
     },
     {
       label: 'Wishlist',
@@ -36,8 +36,8 @@ export const Navigation = () => {
       label: 'Cart',
       icon: ShoppingBag,
       onClick: openCart,
-      isActive: false,
-      badge: cartItemCount, // Added cart count here
+      isActive: pathname === '/cart',
+      badge: cartItemCount,
     },
     {
       label: 'Account',
