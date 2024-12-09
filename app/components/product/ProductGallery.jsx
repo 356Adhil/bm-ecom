@@ -27,6 +27,7 @@ export const ProductGallery = ({ images }) => {
                 alt={`Product view ${selectedImageIndex + 1}`}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
               />
               <button
                 onClick={() => setShowFullscreen(true)}
@@ -73,6 +74,7 @@ export const ProductGallery = ({ images }) => {
                 alt={`Thumbnail ${index + 1}`}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
               />
             </button>
           ))}
@@ -113,6 +115,7 @@ export const ProductGallery = ({ images }) => {
                     alt={`Full view ${selectedImageIndex + 1}`}
                     fill
                     className="object-contain"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                   />
                 </motion.div>
               </AnimatePresence>
@@ -150,6 +153,7 @@ export const ProductGallery = ({ images }) => {
                       alt={`Thumbnail ${index + 1}`}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                     />
                   </button>
                 ))}

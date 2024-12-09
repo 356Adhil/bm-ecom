@@ -303,6 +303,7 @@ export default function CheckoutPage() {
                         alt={item.name}
                         fill
                         className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                       />
                     </div>
                     <div>
@@ -365,6 +366,7 @@ export default function CheckoutPage() {
                     alt={item.name}
                     fill
                     className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                   />
                 </div>
                 <div>

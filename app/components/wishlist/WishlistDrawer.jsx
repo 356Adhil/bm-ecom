@@ -82,7 +82,13 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
                     >
                       {/* Product Image */}
                       <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image src={item.image} alt={item.name} fill className="object-cover" />
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
+                        />
                       </div>
 
                       {/* Product Info */}
