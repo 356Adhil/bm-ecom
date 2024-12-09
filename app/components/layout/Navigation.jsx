@@ -1,23 +1,16 @@
+// components/layout/Navigation.jsx
 import { motion } from 'framer-motion';
 import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
 import { useModals } from '@/app/contexts/ModalContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/app/lib/store';
-import { useEffect, useState } from 'react';
 
 export const Navigation = () => {
-  const { openSearch, openCart, openAuth, openWishlist, isSearchOpen } = useModals();
+  const { openSearch, openCart, openAuth, openWishlist, isSearchOpen } = useModals(); // Add isSearchOpen here
   const router = useRouter();
   const pathname = usePathname();
   const { wishlist, cart } = useStore();
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const [isPwa, setIsPwa] = useState(false);
-
-  useEffect(() => {
-    // Check if the app is running in standalone mode (PWA)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    setIsPwa(isStandalone || window.navigator.standalone);
-  }, []);
 
   const items = [
     {
@@ -30,7 +23,7 @@ export const Navigation = () => {
       label: 'Search',
       icon: Search,
       onClick: openSearch,
-      isActive: isSearchOpen,
+      isActive: isSearchOpen, // Update this line to use isSearchOpen
     },
     {
       label: 'Wishlist',
@@ -55,14 +48,7 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav
-      className={`fixed bottom-0 inset-x-0 bg-white border-t py-4 px-6 grid grid-cols-5 gap-4 z-40 ${
-        isPwa ? 'pb-8' : 'pb-4' // Add extra padding for PWA safe area
-      }`}
-      style={{
-        paddingBottom: 'env(safe-area-inset-bottom)', // iOS safe area support
-      }}
-    >
+    <nav className="fixed bottom-0 inset-x-0 bg-white border-t py-4 px-6 grid grid-cols-5 gap-4 z-40">
       {items.map((item) => {
         const Icon = item.icon;
         return (
