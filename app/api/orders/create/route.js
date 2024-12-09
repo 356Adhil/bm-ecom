@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import mongoose from 'mongoose';
+import { connectDB } from '@/app/lib/db';
 
 const Order =
   mongoose.models.Order ||
