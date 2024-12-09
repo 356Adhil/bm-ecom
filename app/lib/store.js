@@ -23,6 +23,8 @@ export const useStore = create((set) => ({
       cart: state.cart.filter((item) => item.id !== productId),
     })),
 
+  clearCart: () => set({ cart: [] }),
+
   toggleWishlist: (product) =>
     set((state) => {
       const exists = state.wishlist.some((item) => item.id === product.id);
