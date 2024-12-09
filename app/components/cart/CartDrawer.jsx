@@ -141,7 +141,13 @@ export const CartDrawer = ({ isOpen, onClose }) => {
                     >
                       View Cart
                     </button>
-                    <button className="w-full py-3 bg-zinc-900 text-white rounded-xl font-medium transition-colors hover:bg-zinc-800">
+                    <button
+                      className="w-full py-3 bg-zinc-900 text-white rounded-xl font-medium transition-colors hover:bg-zinc-800"
+                      onClick={() => {
+                        onClose();
+                        router.push('/checkout');
+                      }}
+                    >
                       Checkout
                     </button>
                   </div>
