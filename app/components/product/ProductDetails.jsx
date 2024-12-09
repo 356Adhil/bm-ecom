@@ -79,7 +79,7 @@ export const ProductDetails = ({ product, onClose, requiresAuth, inPage = false 
         {/* Product Info */}
         <div className="relative px-4 pb-24 md:p-4 md:pb-24">
           {/* Title and Actions */}
-          <div className="flex justify-between items-start gap-4 -mt-4 md:mt-0 mb-4 bg-white/80 backdrop-blur-md pt-4 sticky top-0 z-20">
+          <div className="flex justify-between items-start gap-4 -mt-4 md:mt-0 mb-4 backdrop-blur-md pt-4 sticky top-0 z-20">
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-1">{product.name}</h2>
               <div className="flex items-center gap-2">
