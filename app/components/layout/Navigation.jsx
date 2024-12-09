@@ -9,7 +9,8 @@ export const Navigation = () => {
   const { openSearch, openCart, openAuth, openWishlist } = useModals();
   const router = useRouter();
   const pathname = usePathname();
-  const { wishlist } = useStore();
+  const { wishlist, cart } = useStore();
+  const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const items = [
     {
@@ -36,6 +37,7 @@ export const Navigation = () => {
       icon: ShoppingBag,
       onClick: openCart,
       isActive: false,
+      badge: cartItemCount, // Added cart count here
     },
     {
       label: "Account",

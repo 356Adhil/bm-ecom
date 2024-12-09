@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import localFont from "next/font/local";
-import { Header } from "./components/layout/Header";
 import { CartDrawer } from "./components/cart/CartDrawer";
 import { AuthModal } from "./components/layout/AuthModal";
 import { SearchOverlay } from "./components/search/SearchOverlay";
@@ -56,19 +55,9 @@ function RootLayoutContent({ children }) {
 
   return (
     <>
-      <Header
-        onCartClick={openCart}
-        onLoginClick={openAuth}
-        onSearchClick={openSearch}
-      />
-
       {children}
 
-      <Navigation
-        onSearchClick={openSearch}
-        onCartClick={openCart}
-        onAccountClick={openAuth}
-      />
+      <Navigation />
 
       <AuthModal isOpen={isAuthOpen} onClose={closeAuth} />
 
