@@ -19,3 +19,18 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Add these to your globals.css */
+@media all and (display-mode: standalone) {
+  html {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    overscroll-behavior-y: none;
+  }
+}

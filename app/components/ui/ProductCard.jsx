@@ -17,6 +17,11 @@ export const ProductCard = ({ product, index }) => {
   const { addToCart, toggleWishlist, wishlist } = useStore();
   const isWishlisted = wishlist.some((item) => item.id === product.id);
 
+  const handleProductClick = () => {
+    // Add a loading state or transition effect here if needed
+    router.push(`/products/${product.id}`);
+  };
+
   return (
     <motion.div
       className="bg-white p-4 rounded-3xl group relative"
@@ -49,13 +54,14 @@ export const ProductCard = ({ product, index }) => {
         <ShoppingBag size={20} />
       </motion.button>
 
-      <div onClick={() => router.push(`/products/${product.id}`)} className="cursor-pointer">
+      <div onClick={handleProductClick} className="cursor-pointer" role="button" tabIndex={0}>
         <div className="relative aspect-square mb-4 rounded-2xl overflow-hidden">
           <Image
             src={product.image}
             alt={product.name}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
+            priority={index < 4} // Prioritize loading for first 4 items
           />
           {product.tag && (
             <span
