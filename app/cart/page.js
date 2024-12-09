@@ -1,35 +1,17 @@
 // app/cart/page.js
 "use client";
-import { useState } from "react";
-import { Navigation } from "../components/layout/Navigation";
-import { AuthModal } from "../components/layout/AuthModal";
-import { SearchOverlay } from "../components/search/SearchOverlay";
 import { useStore } from "../lib/store";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Minus, Plus, X, ShoppingBag } from "lucide-react";
-import { Header } from "../components/layout/Header";
 
 export default function CartPage() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const { cart, addToCart, removeFromCart } = useStore();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      {/* Modals */}
-      <AuthModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
-      <SearchOverlay isOpen={showSearch} onClose={() => setShowSearch(false)} />
-
-      {/* Header */}
-      <Header
-        onLoginClick={() => setShowLogin(true)}
-        onSearchClick={() => setShowSearch(true)}
-        cartCount={cart.length}
-      />
-
       <main className="p-4 max-w-4xl mx-auto pb-24">
         {cart.length === 0 ? (
           <div className="text-center py-12">
@@ -92,11 +74,6 @@ export default function CartPage() {
           </div>
         )}
       </main>
-
-      <Navigation
-        onSearchClick={() => setShowSearch(true)}
-        onAccountClick={() => setShowLogin(true)}
-      />
     </div>
   );
 }
