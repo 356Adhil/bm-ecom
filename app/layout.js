@@ -8,6 +8,8 @@ import './globals.css';
 import { ModalProvider, useModals } from './contexts/ModalContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { WishlistDrawer } from './components/wishlist/WishlistDrawer';
+import { register } from './serviceWorker';
+import { useEffect } from 'react';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -24,6 +26,18 @@ const geistMono = localFont({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Boba Metals" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ModalProvider>
           <SearchProvider>
@@ -46,6 +60,10 @@ function RootLayoutContent({ children }) {
     isWishlistOpen,
     closeWishlist,
   } = useModals();
+
+  useEffect(() => {
+    register();
+  }, []);
 
   return (
     <>
