@@ -1,5 +1,5 @@
 // components/layout/AuthModal.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { signIn } from 'next-auth/react';
@@ -9,7 +9,12 @@ export const AuthModal = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
-
+  useEffect(() => {
+    return () => {
+      setFormData({ name: '', email: '', password: '' });
+      setError('');
+    };
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -23,7 +28,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
 
       if (result?.error) {
         setError(result.error);
-      } else {
+      } else if (result?.ok) {
         onClose();
       }
     } else {
@@ -35,12 +40,18 @@ export const AuthModal = ({ isOpen, onClose }) => {
         });
 
         if (res.ok) {
-          const result = await signIn('credentials', {
+          // After successful registration, sign in automatically
+          const signInResult = await signIn('credentials', {
             redirect: false,
             email: formData.email,
             password: formData.password,
           });
-          if (!result?.error) onClose();
+
+          if (signInResult?.ok) {
+            onClose();
+          } else {
+            setError('Login after registration failed');
+          }
         } else {
           const data = await res.json();
           setError(data.message);
@@ -51,8 +62,19 @@ export const AuthModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn('google', { callbackUrl: window.location.origin });
+  // const handleGoogleSignIn = () => {
+  //   signIn('google', { callbackUrl: window.location.origin });
+  // };
+
+  const handleGoogleSignIn = async () => {
+    // Instead of using callbackUrl
+    await signIn('google', {
+      redirect: false,
+    }).then((result) => {
+      if (!result?.error) {
+        onClose();
+      }
+    });
   };
 
   if (!isOpen) return null;

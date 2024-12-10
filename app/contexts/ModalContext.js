@@ -1,6 +1,7 @@
 // contexts/ModalContext.jsx
 'use client';
-import { createContext, useContext, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const ModalContext = createContext({
   openSearch: () => {},
@@ -18,6 +19,7 @@ const ModalContext = createContext({
 });
 
 export const ModalProvider = ({ children }) => {
+  const { status } = useSession();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -31,6 +33,13 @@ export const ModalProvider = ({ children }) => {
   const closeAuth = () => setIsAuthOpen(false);
   const openWishlist = () => setIsWishlistOpen(true);
   const closeWishlist = () => setIsWishlistOpen(false);
+
+  // Auto-close auth modal when session status changes to authenticated
+  useEffect(() => {
+    if (status === 'authenticated' && isAuthOpen) {
+      setIsAuthOpen(false);
+    }
+  }, [status, isAuthOpen]);
 
   return (
     <ModalContext.Provider
