@@ -9,8 +9,10 @@ import { ModalProvider, useModals } from './contexts/ModalContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { WishlistDrawer } from './components/wishlist/WishlistDrawer';
 import { register } from './serviceWorker';
-import { useEffect } from 'react';
-import { SessionProvider } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { useStore } from './lib/store';
+import { WelcomeToast } from './components/ui/WelcomeToast';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -64,23 +66,36 @@ function RootLayoutContent({ children }) {
     closeWishlist,
   } = useModals();
 
+  const { data: session, status } = useSession(); // Use status as well
+  // const setCurrentUser = useStore((state) => state.setCurrentUser);
+  const { setCurrentUser, syncWithDatabase } = useStore();
+  const [showWelcome, setShowWelcome] = useState(false);
+
   useEffect(() => {
     register();
   }, []);
 
+  // Handle user session
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.id) {
+      setCurrentUser(session.user.id);
+      syncWithDatabase();
+      setShowWelcome(true);
+      setTimeout(() => setShowWelcome(false), 3000);
+    }
+  }, [status, session, setCurrentUser, syncWithDatabase]);
+
   return (
     <>
       {children}
-
       <Navigation />
-
       <AuthModal isOpen={isAuthOpen} onClose={closeAuth} />
-
       <SearchOverlay isOpen={isSearchOpen} onClose={closeSearch} />
-
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
-
       <WishlistDrawer isOpen={isWishlistOpen} onClose={closeWishlist} />
+      {showWelcome && session?.user && (
+        <WelcomeToast user={session.user} onClose={() => setShowWelcome(false)} />
+      )}
     </>
   );
 }

@@ -4,8 +4,10 @@ import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
 import { useModals } from '@/app/contexts/ModalContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/app/lib/store';
+import { useSession } from 'next-auth/react';
 
 export const Navigation = () => {
+  const { data: session } = useSession();
   const { openSearch, openCart, openAuth, openWishlist, isSearchOpen, isCartOpen } = useModals();
   const router = useRouter();
   const pathname = usePathname();
@@ -23,12 +25,12 @@ export const Navigation = () => {
       label: 'Search',
       icon: Search,
       onClick: openSearch,
-      isActive: isSearchOpen, // Update this line to use isSearchOpen
+      isActive: isSearchOpen,
     },
     {
       label: 'Wishlist',
       icon: Heart,
-      onClick: openWishlist,
+      onClick: session ? openWishlist : openAuth,
       isActive: false,
       badge: wishlist.length,
     },
@@ -36,14 +38,14 @@ export const Navigation = () => {
       label: 'Cart',
       icon: ShoppingBag,
       onClick: openCart,
-      isActive: isCartOpen, // Changed from pathname === '/cart' to isCartOpen
+      isActive: isCartOpen,
       badge: cartItemCount,
     },
     {
-      label: 'Account',
+      label: session ? 'Profile' : 'Sign In',
       icon: User,
-      onClick: openAuth,
-      isActive: false,
+      onClick: session ? () => router.push('/profile') : openAuth,
+      isActive: pathname === '/profile',
     },
   ];
 
