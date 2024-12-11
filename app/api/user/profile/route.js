@@ -1,4 +1,3 @@
-// app/api/user/profile/route.js
 import { getServerSession } from 'next-auth';
 import { connectDB } from '@/app/lib/db';
 import User from '@/app/models/User';
@@ -23,10 +22,22 @@ export async function PUT(request) {
     user.email = email;
     await user.save();
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    // Return updated user data to trigger session update
+    return new Response(
+      JSON.stringify({
+        success: true,
+        user: {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        },
+      }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } catch (error) {
     console.error('Profile update error:', error);
     return new Response('Internal Server Error', { status: 500 });

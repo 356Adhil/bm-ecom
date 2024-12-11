@@ -1,4 +1,3 @@
-// app/lib/auth.js
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
@@ -53,17 +52,16 @@ export const authOptions = {
               name: user.name,
               image: user.image,
               googleId: user.id,
+              authProvider: 'google',
             });
-            // Set the ID to MongoDB _id for consistency
             user.id = newUser._id.toString();
           } else {
-            // Use existing user's MongoDB _id
             user.id = existingUser._id.toString();
-            // Update Google ID if needed
             if (!existingUser.googleId) {
               await User.findByIdAndUpdate(existingUser._id, {
                 googleId: user.id,
                 image: user.image,
+                authProvider: 'google',
               });
             }
           }
@@ -74,22 +72,50 @@ export const authOptions = {
         return false;
       }
     },
-    async session({ session, token }) {
-      if (session?.user) {
-        // Always use MongoDB _id for consistency
-        session.user.id = token.sub;
-        // Add provider information if needed
-        session.user.provider = token.provider;
+
+    async jwt({ token, user, account, trigger, session }) {
+      if (trigger === 'update' && session?.user) {
+        // Update the token if the session is manually updated
+        token.name = session.user.name;
+        token.email = session.user.email;
+        token.picture = session.user.image;
       }
-      return session;
-    },
-    async jwt({ token, user, account }) {
+
       if (user) {
         token.id = user.id;
-        // Store the auth provider in the token
         token.provider = account?.provider;
       }
       return token;
+    },
+
+    async session({ session, token }) {
+      try {
+        if (session?.user) {
+          // Fetch fresh user data on each session
+          await connectDB();
+          const user = await User.findById(token.id).select('-password').lean();
+
+          if (user) {
+            session.user = {
+              ...session.user,
+              id: user._id.toString(),
+              name: user.name,
+              email: user.email,
+              image: user.image || session.user.image,
+              provider: token.provider,
+            };
+          }
+        }
+        return session;
+      } catch (error) {
+        console.error('Session callback error:', error);
+        return session;
+      }
+    },
+  },
+  events: {
+    async signOut({ session }) {
+      // Cleanup or logging logic on signout if needed
     },
   },
   pages: {
@@ -99,5 +125,8 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
+  debug: process.env.NODE_ENV === 'development',
 };
