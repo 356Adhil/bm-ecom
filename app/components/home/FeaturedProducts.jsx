@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ProductCard } from '../ui/ProductCard';
 import { categories } from '../../data/categories';
 import { featuredProducts } from '../../data/products';
+import { useRouter } from 'next/navigation';
 
 export const FeaturedProducts = () => {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('All');
   const [filteredProducts, setFilteredProducts] = useState(featuredProducts);
 
@@ -25,6 +27,9 @@ export const FeaturedProducts = () => {
           className="text-zinc-500 hover:text-zinc-800 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            router.push('/products');
+          }}
         >
           View All
         </motion.button>
