@@ -1,16 +1,23 @@
 // app/components/profile/ProfileInfo.jsx
 'use client';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export function ProfileInfo() {
+  const router = useRouter();
   const { data: session, update } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: session?.user?.name || '',
     email: session?.user?.email || '',
   });
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push('/');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,14 +41,24 @@ export function ProfileInfo() {
     <div className="bg-white rounded-2xl p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Profile Information</h2>
-        <motion.button
-          className="text-zinc-500 hover:text-zinc-800"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? 'Cancel' : 'Edit'}
-        </motion.button>
+        <div className="flex gap-4 items-center">
+          <motion.button
+            className="text-zinc-500 hover:text-zinc-800"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? 'Cancel' : 'Edit'}
+          </motion.button>
+          <motion.button
+            className="text-red-500 hover:text-red-700 flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleLogout}
+          >
+            <span>Logout</span>
+          </motion.button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>

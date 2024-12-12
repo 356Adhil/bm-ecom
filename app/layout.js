@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { useStore } from './lib/store';
 import { WelcomeToast } from './components/ui/WelcomeToast';
+import { useSessionExpiration } from './hooks/useSessionExpiration';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -65,7 +66,7 @@ function RootLayoutContent({ children }) {
     isWishlistOpen,
     closeWishlist,
   } = useModals();
-
+  useSessionExpiration(); // Add this line
   const { data: session, status } = useSession(); // Use status as well
   // const setCurrentUser = useStore((state) => state.setCurrentUser);
   const { setCurrentUser, syncWithDatabase } = useStore();
