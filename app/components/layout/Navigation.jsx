@@ -5,14 +5,16 @@ import { useModals } from '@/app/contexts/ModalContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/app/lib/store';
 import { useSession } from 'next-auth/react';
+import { useWishlistStore } from '@/app/lib/wishlist';
 
 export const Navigation = () => {
   const { data: session } = useSession();
   const { openSearch, openCart, openAuth, openWishlist, isSearchOpen, isCartOpen } = useModals();
   const router = useRouter();
   const pathname = usePathname();
-  const { wishlist, cart } = useStore();
+  const { cart } = useStore();
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const { items: wishlistItems } = useWishlistStore();
 
   const items = [
     {
@@ -32,7 +34,7 @@ export const Navigation = () => {
       icon: Heart,
       onClick: session ? openWishlist : openAuth,
       isActive: false,
-      badge: wishlist.length,
+      badge: wishlistItems.length,
     },
     {
       label: 'Cart',
@@ -66,7 +68,7 @@ export const Navigation = () => {
                 className={`${
                   item.isActive
                     ? 'text-zinc-900'
-                    : item.label === 'Wishlist' && wishlist.length > 0
+                    : item.label === 'Wishlist' && wishlistItems.length > 0
                       ? 'text-red-500'
                       : 'text-zinc-700'
                 }`}

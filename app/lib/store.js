@@ -1,3 +1,4 @@
+// lib/store.js
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -5,9 +6,8 @@ export const useStore = create(
   persist(
     (set, get) => ({
       cart: [],
-      wishlist: [],
       searchHistory: [],
-      currentUser: null, // Add this to track user state
+      currentUser: null,
 
       syncWithDatabase: async () => {
         const state = get();
@@ -19,61 +19,67 @@ export const useStore = create(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               cart: state.cart,
-              wishlist: state.wishlist,
             }),
           });
 
           if (!response.ok) {
             const data = await response.json();
-            console.error('Sync failed:', data);
-            throw new Error(data.message);
+            throw new Error(data.message || 'Failed to sync with database');
           }
+
+          const data = await response.json();
+          return data;
         } catch (error) {
-          console.error('Failed to sync with database:', error);
+          console.error('Failed to sync with database:', error.message);
         }
       },
 
       setCurrentUser: (userId) => {
         set({ currentUser: userId });
+        // Optionally trigger a sync when user is set
+        if (userId) {
+          get().syncWithDatabase();
+        }
       },
 
       addToCart: (product, quantity = 1) =>
         set((state) => {
           const existing = state.cart.find((item) => item.id === product.id);
-          if (existing) {
-            return {
-              cart: state.cart.map((item) =>
+          const newCart = existing
+            ? state.cart.map((item) =>
                 item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
-              ),
-            };
-          }
-          return { cart: [...state.cart, { ...product, quantity }] };
-        }),
+              )
+            : [...state.cart, { ...product, quantity }];
+
+          return { cart: newCart };
+        }, true), // true here will trigger the storage middleware
 
       removeFromCart: (productId) =>
-        set((state) => ({
-          cart: state.cart.filter((item) => item.id !== productId),
-        })),
+        set(
+          (state) => ({
+            cart: state.cart.filter((item) => item.id !== productId),
+          }),
+          true
+        ),
 
-      clearCart: () => set({ cart: [] }),
-
-      toggleWishlist: (product) =>
-        set((state) => {
-          const exists = state.wishlist.some((item) => item.id === product.id);
-          return {
-            wishlist: exists
-              ? state.wishlist.filter((item) => item.id !== product.id)
-              : [...state.wishlist, product],
-          };
-        }),
+      clearCart: () => set({ cart: [] }, true),
 
       addSearchHistory: (term) =>
-        set((state) => ({
-          searchHistory: [term, ...state.searchHistory.filter((t) => t !== term)].slice(0, 5),
-        })),
+        set(
+          (state) => ({
+            searchHistory: [term, ...state.searchHistory.filter((t) => t !== term)].slice(0, 5),
+          }),
+          true
+        ),
     }),
     {
       name: 'store-storage',
+      onRehydrateStorage: () => (state) => {
+        // Optionally sync with database when store is rehydrated
+        if (state && state.currentUser) {
+          state.syncWithDatabase();
+        }
+      },
     }
   )
 );

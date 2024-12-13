@@ -3,14 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star, Minus, Plus, ShoppingBag, Heart, Check, Share2 } from 'lucide-react';
 import { ProductGallery } from './ProductGallery';
 import { useStore } from '@/app/lib/store';
+import { useWishlistStore } from '@/app/lib/wishlist';
 
 export const ProductDetails = ({ product, onClose, requiresAuth, inPage = false }) => {
   const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState('Medium');
-  const { addToCart, toggleWishlist, wishlist } = useStore();
-  const isWishlisted = wishlist.some((item) => item.id === product.id);
+  const { addToCart } = useStore();
+  const { items, addItem, removeItem } = useWishlistStore();
+
+  const isWishlisted = items.some((item) => item.productId === product.id);
 
   const images = [
     product.image,
@@ -41,6 +44,14 @@ export const ProductDetails = ({ product, onClose, requiresAuth, inPage = false 
     addToCart({ ...product, selectedSize }, quantity);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
+  };
+
+  const handleWishlistToggle = async () => {
+    if (isWishlisted) {
+      await removeItem(product.id);
+    } else {
+      await addItem(product);
+    }
   };
 
   const Container = inPage ? motion.div : motion.div;
@@ -101,7 +112,7 @@ export const ProductDetails = ({ product, onClose, requiresAuth, inPage = false 
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
-                onClick={() => toggleWishlist(product)}
+                onClick={handleWishlistToggle}
                 className="p-2 md:p-3 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors"
               >
                 <Heart

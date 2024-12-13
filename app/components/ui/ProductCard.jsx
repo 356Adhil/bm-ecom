@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Star, Heart, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
 import { useStore } from '../../lib/store';
+import { useWishlistStore } from '../../lib/wishlist';
 
 const tagStyles = {
   Bestseller: 'bg-yellow-100 text-yellow-800',
@@ -13,14 +14,25 @@ const tagStyles = {
 };
 
 export const ProductCard = ({ product, index, onClose }) => {
-  // Add onClose to props
   const router = useRouter();
-  const { addToCart, toggleWishlist, wishlist } = useStore();
-  const isWishlisted = wishlist.some((item) => item.id === product.id);
+  const { addToCart } = useStore();
+  const { items, addItem, removeItem } = useWishlistStore();
+
+  // Check if product is in wishlist using productId
+  const isWishlisted = items.some((item) => item.productId === product.id);
 
   const handleProductClick = () => {
     router.push(`/products/${product.id}`);
-    if (onClose) onClose(); // Add this line
+    if (onClose) onClose();
+  };
+
+  const handleWishlistToggle = async (e) => {
+    e.stopPropagation();
+    if (isWishlisted) {
+      await removeItem(product.id);
+    } else {
+      await addItem(product);
+    }
   };
 
   return (
@@ -32,10 +44,7 @@ export const ProductCard = ({ product, index, onClose }) => {
       whileHover={{ y: -4 }}
     >
       <motion.button
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleWishlist(product);
-        }}
+        onClick={handleWishlistToggle}
         className={`absolute top-6 right-6 z-10 p-2 rounded-full transition-colors
           ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-100'}`}
         whileTap={{ scale: 0.9 }}

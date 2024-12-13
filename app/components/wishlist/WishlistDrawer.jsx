@@ -2,16 +2,26 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, ShoppingBag, Trash2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useWishlistStore } from '@/app/lib/wishlist';
 import { useStore } from '@/app/lib/store';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export const WishlistDrawer = ({ isOpen, onClose }) => {
-  const { wishlist, toggleWishlist, addToCart } = useStore();
+  const { items, removeItem, isLoading, sync } = useWishlistStore();
+  const { addToCart } = useStore();
   const router = useRouter();
 
-  const handleAddToCart = (product) => {
+  // Sync wishlist when drawer opens
+  useEffect(() => {
+    if (isOpen) {
+      sync();
+    }
+  }, [isOpen, sync]);
+
+  const handleAddToCart = async (product) => {
     addToCart(product, 1);
-    toggleWishlist(product); // Remove from wishlist after adding to cart
+    await removeItem(product.id);
     // Optionally show a success message
   };
 
@@ -40,9 +50,7 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <Heart size={20} className="text-red-500" />
                 <h2 className="text-lg font-semibold">My Wishlist</h2>
-                <span className="bg-zinc-100 px-2 py-1 rounded-full text-sm">
-                  {wishlist.length}
-                </span>
+                <span className="bg-zinc-100 px-2 py-1 rounded-full text-sm">{items.length}</span>
               </div>
               <button
                 onClick={onClose}
@@ -54,7 +62,11 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto">
-              {wishlist.length === 0 ? (
+              {isLoading ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-zinc-900 border-t-transparent" />
+                </div>
+              ) : items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full p-4 text-center">
                   <Heart size={48} className="text-zinc-300 mb-2" />
                   <p className="text-zinc-600 mb-2">Your wishlist is empty</p>
@@ -71,9 +83,9 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
                 </div>
               ) : (
                 <div className="p-4 space-y-4">
-                  {wishlist.map((item) => (
+                  {items.map((item) => (
                     <motion.div
-                      key={item.id}
+                      key={item.productId}
                       layout
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -108,7 +120,7 @@ export const WishlistDrawer = ({ isOpen, onClose }) => {
                         </motion.button>
                         <motion.button
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => toggleWishlist(item)}
+                          onClick={() => removeItem(item.productId)}
                           className="p-2 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors text-red-500"
                         >
                           <Trash2 size={16} />

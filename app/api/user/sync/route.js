@@ -21,7 +21,16 @@ export async function POST(request) {
     }
 
     await connectDB();
-    const { cart, wishlist } = await request.json();
+    const { cart } = await request.json();
+
+    if (!Array.isArray(cart)) {
+      return NextResponse.json(
+        {
+          message: 'Invalid cart data',
+        },
+        { status: 400 }
+      );
+    }
 
     // First verify the user exists
     const user = await User.findById(session.user.id);
@@ -50,12 +59,6 @@ export async function POST(request) {
       },
       { upsert: true, new: true }
     );
-
-    // Update Wishlist
-    await User.findByIdAndUpdate(user._id, {
-      wishlist: wishlist.map((item) => item.id),
-      updatedAt: new Date(),
-    });
 
     return NextResponse.json(
       {

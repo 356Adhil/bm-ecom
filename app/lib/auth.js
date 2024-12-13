@@ -114,7 +114,7 @@ export const authOptions = {
     },
   },
   events: {
-    async signOut({ session }) {
+    async signOut() {
       // Cleanup or logging logic on signout if needed
     },
   },
